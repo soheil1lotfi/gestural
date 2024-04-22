@@ -1,0 +1,637 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Stream</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .video-container {
+            position: absolute;
+            bottom: 60px;
+            left: 60%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+        iframe {
+            width: 900px; /* Adjust width as needed */
+            height: 500px; /* Adjust height as needed */
+        }
+        .button-container {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        .overlay-text {
+            position: absolute;
+            bottom: 40px;
+            right: 300px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <h1 id="gesture-message">No gesture detected</h1>
+        <iframe src="/video_feed" frameborder="0" allowfullscreen></iframe>
+        <div id="overlay-text" class="overlay-text"></div>
+    </div>
+    <div class="button-container">
+        <button id="toggle-mic">Microphone</button>
+        <button id="toggle-video">Video</button>
+        <button id="send-emoji">Send Emoji</button>
+        <button id="raise-hand">Raise Hand</button>
+    </div>
+    <script>
+        function fetchCategoryName() {
+            $.get("/get_category_name", function(data) {
+                $("#gesture-message").text(data);
+            });
+        }
+        // Fetch category name every 1 second
+        setInterval(fetchCategoryName, 700);
+        // Get references to the buttons
+        const toggleMicBtn = document.getElementById('toggle-mic');
+        const toggleVideoBtn = document.getElementById('toggle-video');
+        const sendEmojiBtn = document.getElementById('send-emoji');
+        const raiseHandBtn = document.getElementById('raise-hand');
+        const overlayText = document.getElementById('overlay-text');
+
+        let isMicrophone = true
+
+        // Add click event listeners to the buttons
+        toggleMicBtn.addEventListener('click', toggleMicrophone);
+        toggleVideoBtn.addEventListener('click', toggleVideo);
+        sendEmojiBtn.addEventListener('click', sendEmoji);
+        raiseHandBtn.addEventListener('click', raiseHand);
+
+
+        function toggleMicrophone() {
+            isMicrophone = !isMicrophone
+            if (isMicrophone) {
+                showOverlayText('Microphone On')
+            } else {
+                showOverlayText('Microphone Off')
+            }
+            console.log('Microphone button clicked');
+        }
+
+        function toggleVideo() {
+            showOverlayText('Video Enabled')
+            console.log('Video button clicked');
+        }
+
+        function sendEmoji() {
+            showOverlayText('Emoji Sent')
+            console.log('Send Emoji button clicked');
+        }
+
+        function raiseHand() {
+            showOverlayText('Hand Raised')
+            console.log('Raise Hand button clicked');
+        }
+        function showOverlayText(text) {
+            overlayText.textContent = text;
+            overlayText.style.display = 'block';
+
+            // Hide the overlay text after 3 seconds
+            setTimeout(() => {
+                overlayText.style.display = 'none';
+            }, 3000);
+        }
+    </script>
+</body>
+</html> -->
+
+
+
+
+
+
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Stream</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .video-container {
+            position: absolute;
+            bottom: 60px;
+            left: 60%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+        iframe {
+            width: 900px; /* Adjust width as needed */
+            height: 500px; /* Adjust height as needed */
+        }
+        .button-container {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        .overlay-text {
+            position: absolute;
+            bottom: 40px;
+            right: 300px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <iframe src="/video_feed" frameborder="0" allowfullscreen></iframe>
+        <div id="overlay-text" class="overlay-text"></div>
+    </div>
+    <div class="button-container">
+        <button id="toggle-mic">Microphone</button>
+        <button id="toggle-video">Video</button>
+        <button id="send-emoji">Send Emoji</button>
+        <button id="raise-hand">Raise Hand</button>
+    </div>
+    <script>
+        
+    
+
+        function fetchCategoryName() {
+            $.get("/get_category_name", function(data) {
+                // Update the global variable with the new data
+
+                
+                switch(data) {
+                    case 'Open_Palm':
+                        latestGesture = '✋🏻';
+                        raiseHand();
+                        break;
+                    case 'Thumb_Up':
+                        latestGesture = '👍🏻';
+                        sendEmoji();
+                        break;
+                    case 'Victory':
+                        latestGesture = '✌🏻';
+                        sendEmoji();
+                        break;
+                    case 'Thumb_Down':
+                        latestGesture = '👎🏻';
+                        sendEmoji();
+                        break;
+                    default:
+                        console.log('default')
+                        break;
+                }  
+
+            });
+
+        }
+        // Fetch category name every 1 second
+        setInterval(fetchCategoryName, 1000);
+        // Get references to the buttons
+        const toggleMicBtn = document.getElementById('toggle-mic');
+        const toggleVideoBtn = document.getElementById('toggle-video');
+        const sendEmojiBtn = document.getElementById('send-emoji');
+        const raiseHandBtn = document.getElementById('raise-hand');
+        const overlayText = document.getElementById('overlay-text');
+
+        let isMicrophone = true
+
+        // Add click event listeners to the buttons
+        toggleMicBtn.addEventListener('click', toggleMicrophone);
+        toggleVideoBtn.addEventListener('click', toggleVideo);
+        sendEmojiBtn.addEventListener('click', sendEmoji);
+        raiseHandBtn.addEventListener('click', raiseHand);
+
+
+        function toggleMicrophone() {
+            isMicrophone = !isMicrophone
+            if (isMicrophone) {
+                showOverlayText('Microphone On')
+            } else {
+                showOverlayText('Microphone Off')
+            }
+            console.log('Microphone button clicked');
+        }
+
+        function toggleVideo() {
+            showOverlayText(latestGesture)
+            console.log('Video button clicked');
+        }
+
+        function sendEmoji() {
+            showOverlayText(latestGesture)
+            console.log('Send Emoji button clicked');
+        }
+
+        function raiseHand() {
+            showOverlayText(latestGesture + 'Raised Hand')
+            console.log('Raise Hand button clicked');
+        }
+        function showOverlayText(text) {
+            overlayText.textContent = text;
+            overlayText.style.display = 'block';
+
+            // Hide the overlay text after 3 seconds
+            setTimeout(() => {
+                overlayText.style.display = 'none';
+            }, 3000);
+        }
+    </script>
+</body>
+</html> -->
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Stream</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .video-container {
+            position: absolute;
+            bottom: 60px;
+            left: 60%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+        iframe {
+            width: 900px; /* Adjust width as needed */
+            height: 500px; /* Adjust height as needed */
+        }
+        .button-container {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        .overlay-text {
+            position: absolute;
+            bottom: 40px;
+            right: 300px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <iframe src="/video_feed" frameborder="0" allowfullscreen></iframe>
+        <div id="overlay-text" class="overlay-text"></div>
+    </div>
+    <div class="button-container">
+        <button id="toggle-mic">Microphone</button>
+        <button id="toggle-video">Video</button>
+        <button id="send-emoji">Send Emoji</button>
+        <button id="raise-hand">Raise Hand</button>
+    </div>
+    <script>
+        let currentGesture = '';
+        let gestureStartTime = null;
+
+        function fetchCategoryName() {
+            $.get("/get_category_name", function(data) {
+                const now = Date.now();
+
+                // If the gesture has changed or it's the first detection
+                if (data !== currentGesture) {
+                    currentGesture = data;
+                    gestureStartTime = now; // Reset the timer
+                }
+
+                console.log(gestureStartTime, (now - gestureStartTime >= 2000), data)
+                if (gestureStartTime && (now - gestureStartTime >= 2000) && data !== '') {
+                    // Sustained gesture detected, display it
+                    showGesture(currentGesture);
+
+                    // Reset after showing the gesture
+                    currentGesture = '';
+                    gestureStartTime = null;
+                }
+                // Check if the current gesture has been held for more than 3 seconds
+            });
+        }
+        // Fetch category name every 1 second
+        setInterval(fetchCategoryName, 1000);
+        
+        function showGesture(gesture) {
+            switch(gesture) {
+                case 'Open_Palm':
+                    latestGesture = '✋🏻';
+                    raiseHand();
+                    break;
+                case 'Thumb_Up':
+                    latestGesture = '👍🏻';
+                    sendEmoji();
+                    break;
+                case 'Victory':
+                    latestGesture = '✌🏻';
+                    sendEmoji();
+                    break;
+                case 'Thumb_Down':
+                    latestGesture = '👎🏻';
+                    sendEmoji();
+                    break;
+                default:
+                    break;
+            };
+        }
+
+        // Get references to the buttons
+        const toggleMicBtn = document.getElementById('toggle-mic');
+        const toggleVideoBtn = document.getElementById('toggle-video');
+        const sendEmojiBtn = document.getElementById('send-emoji');
+        const raiseHandBtn = document.getElementById('raise-hand');
+        const overlayText = document.getElementById('overlay-text');
+
+        let isMicrophone = true;
+
+        // Add click event listeners to the buttons
+        toggleMicBtn.addEventListener('click', toggleMicrophone);
+        toggleVideoBtn.addEventListener('click', toggleVideo);
+        sendEmojiBtn.addEventListener('click', sendEmoji);
+        raiseHandBtn.addEventListener('click', raiseHand);
+
+
+        function toggleMicrophone() {
+            isMicrophone = !isMicrophone;
+            if (isMicrophone) {
+                showOverlayText('Microphone On');
+            } else {
+                showOverlayText('Microphone Off');
+            }
+            console.log('Microphone button clicked');
+        }
+
+        function toggleVideo() {
+            showOverlayText(latestGesture);
+            console.log('Video button clicked');
+        }
+
+        function sendEmoji() {
+            showOverlayText(latestGesture);
+            console.log('Send Emoji button clicked');
+        }
+
+        function raiseHand() {
+            showOverlayText(latestGesture + 'Raised Hand');
+            console.log('Raise Hand button clicked');
+        }
+        function showOverlayText(text) {
+            overlayText.textContent = text;
+            overlayText.style.display = 'block';
+
+            // Hide the overlay text after 3 seconds
+            setTimeout(() => {
+                overlayText.style.display = 'none';
+            }, 3000);
+        }
+    </script>
+</body>
+</html> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Stream</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .video-container {
+            position: absolute;
+            bottom: 60px;
+            left: 60%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+        iframe {
+            width: 900px; /* Adjust width as needed */
+            height: 500px; /* Adjust height as needed */
+        }
+        .button-container {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        .overlay-text {
+            position: absolute;
+            bottom: 40px;
+            right: 300px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <iframe src="/video_feed" frameborder="0" allowfullscreen></iframe>
+        <div id="overlay-text" class="overlay-text"></div>
+    </div>
+    <div class="button-container">
+        <button id="toggle-mic">Microphone</button>
+        <button id="toggle-video">Video</button>
+        <button id="send-emoji">Send Emoji</button>
+        <button id="raise-hand">Raise Hand</button>
+    </div>
+    <script>
+        let latestGesture = '';
+        function fetchCategoryName(){
+            fetch("/get_category_name")
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json(); // Parse JSON response into native JavaScript objects
+            })
+            .then(data => {
+                console.log(data)
+                let gesture = data;
+                switch(gesture) {
+                    case 'Open_Palm':
+                        latestGesture = '✋🏻';
+                        raiseHand();
+                        break;
+                    case 'Thumb_Up':
+                        latestGesture = '👍🏻';
+                        sendEmoji();
+                        break;
+                    case 'Victory':
+                        latestGesture = '✌🏻';
+                        sendEmoji();
+                        break;
+                    case 'Thumb_Down':
+                        latestGesture = '👎🏻';
+                        sendEmoji();
+                        break;
+                    case 'None':
+                        latestGesture = '';
+                        // sendEmoji();
+                        break;
+                    case '':
+                        latestGesture = '';
+                        // sendEmoji();
+                        break;
+                    default:
+                        break;
+
+            
+                }
+            })
+            .catch(error => {
+                console.error('There has been a problem with your fetch operation:', error);
+            });
+        }
+
+        // Fetch category name every 1 second
+        setInterval(fetchCategoryName, 2000);
+        // Get references to the buttons
+        const toggleMicBtn = document.getElementById('toggle-mic');
+        const toggleVideoBtn = document.getElementById('toggle-video');
+        const sendEmojiBtn = document.getElementById('send-emoji');
+        const raiseHandBtn = document.getElementById('raise-hand');
+        const overlayText = document.getElementById('overlay-text');
+
+        let isMicrophone = true
+
+        // Add click event listeners to the buttons
+        toggleMicBtn.addEventListener('click', toggleMicrophone);
+        toggleVideoBtn.addEventListener('click', toggleVideo);
+        sendEmojiBtn.addEventListener('click', sendEmoji);
+        raiseHandBtn.addEventListener('click', raiseHand);
+
+
+        function toggleMicrophone() {
+            isMicrophone = !isMicrophone
+            if (isMicrophone) {
+                showOverlayText('Microphone On')
+            } else {
+                showOverlayText('Microphone Off')
+            }
+            console.log('Microphone button clicked');
+        }
+
+        function toggleVideo() {
+            showOverlayText(latestGesture)
+            console.log('Video button clicked');
+        }
+
+        function sendEmoji() {
+            showOverlayText(latestGesture)
+            console.log('Send Emoji button clicked');
+        }
+
+        function raiseHand() {
+            showOverlayText(latestGesture + 'Raised Hand')
+            console.log('Raise Hand button clicked');
+        }
+        function showOverlayText(text) {
+            overlayText.textContent = text;
+            overlayText.style.display = 'block';
+
+            // Hide the overlay text after 3 seconds
+            setTimeout(() => {
+                overlayText.style.display = 'none';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
+
