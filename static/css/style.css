@@ -1,0 +1,116 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #101010;
+    overflow: hidden;
+}
+.video-container {
+    position: absolute;
+    bottom: 160px;
+    left: 26vw;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    overflow: hidden;
+}
+.video-container img{
+    width: 640px;
+    height: 480px;
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.my-video-container {
+    position: absolute;
+    bottom: 160px;
+    left: 73vw;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    overflow: hidden;
+}
+.my-video-container iframe {
+    width: 640px;
+    height: 480px;
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.overlay-text {
+    background-color: transparent;
+    color: white;
+    font-size: 40px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: none;
+}
+#overlay-text {
+    position: absolute;
+    bottom: 20px;
+    right: 550px;
+}
+#raise-hand-text {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+button {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.emoji-container {
+    border-radius: 20px;
+    background-color: #282828;
+    position: absolute;
+    bottom: 90px;
+    height: 45px;
+    left: 46.5%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+}
+.emoji-container button {
+    background-color: transparent;
+    border: 0;
+}
+.emoji-container button i {
+    color: #fada5e;
+}
+.button-container {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+}
+.button-container button {
+    background-color: #282828;
+}
+.button-container button i {
+    color: white;
+    font-size: 20px;
+    line-height: 30px;
+}
+#end-call {
+    width: 80px;
+    border-radius: 15px;
+    background-color: red;
+}
+#send-emoji {
+    background-color: dodgerblue;
+}
+.fa-phone {
+    color: white;
+}
